@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>琴岛二十一小时 · 鼓浪屿</title>
+<meta name="description" content="鼓浪屿一家三口 21 小时随身手账：行程、打卡、美食、地图、孩子探险护照">
+<meta name="theme-color" content="#F4EBDD">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="icon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="icon-180.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="琴岛21h">
+<link rel="preload" href="fonts/wenkai.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="grain" aria-hidden="true"></div>
+
+<main id="app">
+  <!-- 此刻 -->
+  <section class="view" id="v-now" data-view="now">
+    <header class="hero">
+      <div class="postcard hero-card">
+        <img class="hero-img" src="img/cover.jpg" alt="鼓浪屿插画">
+        <div class="hero-text">
+          <p class="eyebrow">GULANGYU · 10.03 → 10.04</p>
+          <h1>琴岛<br>二十一小时</h1>
+          <p class="sub">一家三口的一夜一晨</p>
+        </div>
+        <div class="hero-stamp" id="heroStamp"></div>
+      </div>
+    </header>
+
+    <div class="now-card postcard" id="nowCard"></div>
+
+    <div class="chips" id="weather"></div>
+
+    <div class="quick">
+      <button class="qbtn" data-act="lost"><span>🆘</span>防走失卡</button>
+      <button class="qbtn" data-act="postcard"><span>💌</span>生成明信片</button>
+      <button class="qbtn" data-act="fact"><span>🐚</span>讲个冷知识</button>
+    </div>
+
+    <h2 class="sec-title">锦囊</h2>
+    <div id="tips"></div>
+    <div class="phones" id="phones"></div>
+    <p class="foot">资料核对于 2026-10-03。开放时间、票价以小程序和现场为准。<br>做这个手账的是 Claude，祝你们玩得开心 ☀️</p>
+  </section>
+
+  <!-- 行程 -->
+  <section class="view" id="v-plan" data-view="plan" hidden>
+    <h2 class="page-title">行程<small id="planProgress"></small></h2>
+    <div id="timeline"></div>
+  </section>
+
+  <!-- 地图 -->
+  <section class="view" id="v-map" data-view="map" hidden>
+    <h2 class="page-title">地图<small>示意图 · 点地点看详情</small></h2>
+    <div class="map-wrap postcard" id="mapWrap"></div>
+    <div class="legend"><span class="l1">第一天 傍晚</span><span class="l2">第二天 上午</span></div>
+    <div id="placeSheet" class="place-sheet"></div>
+  </section>
+
+  <!-- 吃 -->
+  <section class="view" id="v-food" data-view="food" hidden>
+    <h2 class="page-title">吃货清单<small id="foodProgress"></small></h2>
+    <p class="hint">点一下“想吃”，吃完再点一下“吃过”。</p>
+    <div class="food-grid" id="foodGrid"></div>
+  </section>
+
+  <!-- 探险家 -->
+  <section class="view" id="v-kid" data-view="kid" hidden>
+    <div class="passport postcard">
+      <p class="eyebrow">GULANGYU EXPLORER PASSPORT</p>
+      <h2>小小探险家护照</h2>
+      <label class="kidname">探险家：<input id="kidName" placeholder="写上名字" maxlength="8"></label>
+      <div class="quest-grid" id="questGrid"></div>
+      <p class="hint center" id="questProgress"></p>
+    </div>
+  </section>
+</main>
+
+<nav class="tabbar" id="tabbar">
+  <button data-tab="now" class="on"><i>☀︎</i>此刻</button>
+  <button data-tab="plan"><i>✎</i>行程</button>
+  <button data-tab="map"><i>⌖</i>地图</button>
+  <button data-tab="food"><i>❦</i>吃</button>
+  <button data-tab="kid"><i>★</i>探险</button>
+</nav>
+
+<div class="modal" id="modal" hidden>
+  <div class="modal-body" id="modalBody"></div>
+</div>
+<input type="file" id="photoInput" accept="image/*" hidden>
+
+<script type="module" src="app.js"></script>
+</body>
+</html>

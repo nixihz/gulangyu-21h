@@ -1,0 +1,12 @@
+{
+  "name": "琴岛二十一小时 · 鼓浪屿",
+  "short_name": "琴岛21h",
+  "start_url": "./",
+  "display": "standalone",
+  "background_color": "#F4EBDD",
+  "theme_color": "#F4EBDD",
+  "icons": [
+    { "src": "icon.svg", "sizes": "any", "type": "image/svg+xml" },
+    { "src": "icon-512.png", "sizes": "512x512", "type": "image/png" }
+  ]
+}
