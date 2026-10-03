@@ -91,7 +91,9 @@ function openModal(html) {
   $("#modalBody").innerHTML = html;
   modal.hidden = false;
 }
-modal.addEventListener("click", (e) => { if (e.target === modal || e.target.closest("[data-close]")) modal.hidden = true; });
+modal.addEventListener("click", (e) => {
+  if (e.target === modal || e.target.closest("[data-close]")) { modal.querySelector("video")?.pause(); modal.hidden = true; }
+});
 
 // ---------- 主题：日落后 30 分钟到日出，自动切换夜色 ----------
 function applyTheme() {
@@ -469,6 +471,10 @@ function showImage(title, data, name) {
 
 // ---------- 弹窗动作 ----------
 const ACTS = {
+  video() {
+    openModal(`<h3>🎬 琴岛二十一小时</h3><video src="video/gulangyu-720.mp4" poster="img/cover.jpg" controls playsinline preload="metadata"></video>
+      <div class="row"><button class="btn" data-close>关闭</button></div>`);
+  },
   lost() {
     openModal(`<h3>🆘 防走失卡</h3><p class="hint">填好后截图设成锁屏，或者给工作人员看。信息只保存在这台手机里。</p>
       <input type="text" id="lfName" placeholder="孩子的名字" value="${esc(state.kidName)}">
