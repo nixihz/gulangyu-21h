@@ -1,4 +1,4 @@
-import { TRIP, PLACES, PLAN, FOOD, QUESTS, FACTS, TIPS, PHONES } from "./data.js";
+import { TRIP, PLACES, PLAN, FOOD, QUESTS, FACTS, TIPS, PHONES } from "./data.js?v=4";
 
 const $ = (s, el = document) => el.querySelector(s);
 const $$ = (s, el = document) => [...el.querySelectorAll(s)];
@@ -471,9 +471,34 @@ function showImage(title, data, name) {
 
 // ---------- 弹窗动作 ----------
 const ACTS = {
-  video() {
-    openModal(`<h3>🎬 琴岛二十一小时</h3><video src="video/gulangyu-720.mp4" poster="img/cover.jpg" controls playsinline preload="metadata"></video>
+  // 托管服务器不支持 Range、也不返回 video/mp4，iOS 无法直接流式播放，所以先整段下载成 blob 再播
+  async video() {
+    openModal(`<h3>🎬 琴岛二十一小时</h3><video poster="img/cover.jpg" controls playsinline></video>
+      <p class="hint" id="vidMsg">正在加载 0%（约 23MB）</p>
       <div class="row"><button class="btn" data-close>关闭</button></div>`);
+    const v = $("#modalBody video"), msg = $("#vidMsg");
+    try {
+      ACTS.blob ??= (async () => {
+        const r = await fetch("video/gulangyu-720.mp4");
+        const total = +r.headers.get("content-length") || 23.3e6;
+        const reader = r.body.getReader(), parts = [];
+        let got = 0;
+        for (;;) {
+          const { done, value } = await reader.read();
+          if (done) break;
+          parts.push(value); got += value.length;
+          const m = $("#vidMsg");
+          if (m) m.textContent = `正在加载 ${Math.min(99, Math.round(got / total * 100))}%（约 23MB）`;
+        }
+        return URL.createObjectURL(new Blob(parts, { type: "video/mp4" }));
+      })();
+      v.src = await ACTS.blob;
+      msg.textContent = "点播放就能看";
+      v.play().catch(() => {});
+    } catch {
+      ACTS.blob = null;
+      msg.textContent = "加载失败，换个网络再试试";
+    }
   },
   lost() {
     openModal(`<h3>🆘 防走失卡</h3><p class="hint">填好后截图设成锁屏，或者给工作人员看。信息只保存在这台手机里。</p>
